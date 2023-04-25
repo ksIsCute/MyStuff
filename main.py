@@ -25,6 +25,8 @@ def createadminportalthing():
 
 @app.route("/")
 def slash():
+  if request.args:
+    return render_template("index.html", error=request.args.get("error"))
   return render_template("index.html")
 
 @app.route("/getstarted")
@@ -36,7 +38,7 @@ def login():
   if request.cookies:
     try:
       if request.cookies.get("x-session-name"):
-        return redirect("https://mystuff.ksiscute.repl.co/?error='You/'re already logged in!'")
+        return redirect("https://mystuff.ksiscute.repl.co/?error=You're already logged in!")
     except:
       
       resp = make_response(redirect("https://mystuff.ksiscute.repl.co/settings"))
@@ -58,7 +60,7 @@ def login():
 def signup():
     try:
       if request.cookies.get("x-session-name"):
-        return redirect("https://mystuff.ksiscute.repl.co/?error='You/'re already logged in!'")
+        return redirect("https://mystuff.ksiscute.repl.co/?error=You're already logged in!")
     except:
       if request.method == "POST":
         if len(request.form.get("pword")) > 50:
