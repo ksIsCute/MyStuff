@@ -29,6 +29,14 @@ def slash():
     return render_template("index.html", error=request.args.get("error"))
   return render_template("index.html")
 
+@app.route("/profile/@<username>")
+def profile(username):
+  user = db.find_one(
+    {
+      "name": username
+    })
+  return render_template("viewprofile.html", name=user['name'], data=user)
+
 @app.route("/getstarted")
 def getstarted():
   return render_template("getstarted.html")

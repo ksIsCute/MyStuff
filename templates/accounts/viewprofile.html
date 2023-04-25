@@ -36,12 +36,17 @@
       </div>
     </nav>
     <div>
-      <form method="POST">
-         <div class="input-group flex-nowrap">
-          <span class="input-group-text" id="addon-wrapping">@</span>
-          <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
-        </div>
-      </form>
+      <h2>{{ name }}</h2>
+      <h3>{{ user['settings']['profile']['bio'] }}</h3>
+      {% if user['settings']['dob']['showing'] == True %}
+        <p>Birthday: {{ user['settings']['dob']['day'] }}-{{ user['settings']['dob']['month'] }}-{{ user['settings']['dob']['year'] }}</p>
+      {% endif %}
+      {% if user['settings']['profile']['status'] != "" %}
+        <h3>{{ user['settings']['profile']['status'] }}</h3>
+      {% endif %}
+      {% for badge in badges %}
+        <img src="/static/images/badges/{{ badge.lower() }}.png">
+      {% endfor %}
     </div>
     <hr>
 
