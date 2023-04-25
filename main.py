@@ -11,7 +11,6 @@ db = client['MyStuff']['MainDB']
 
 try:
   client.admin.command('ping')
-  print("Pinged your deployment. You successfully connected to MongoDB!")
 except Exception as e:
   print(e)
 
@@ -34,60 +33,70 @@ def getstarted():
 
 @app.route("/signin", methods=["GET", "POST"])
 def login():
-  resp = make_response(redirect("https://mystuff.ksiscute.repl.co/settings"))
-  if request.method == "POST":
-    uid = 1
-    for x in db.find():
-      uid += 1
-      if str(x['name']).lower() == request.form.get("uname").lower():
-        if bcrypt.checkpw(request.form.get("pword").encode("UTF8"), x['password'].encode("UTF8")):
-          resp.set_cookie('x-session-token', f'{bcrypt.hashpw(request.form.get("uname").encode("UTF8"), bcrypt.gensalt()).decode("UTF8")}')
-          resp.set_cookie('x-session-name', request.form.get("uname"))
-          return resp
-        return render_template("/accounts/signin.html", error="Password and/or username is incorrect!")
-    return render_template("/accounts/signin.html", error="That username doesn't exist!")
+  if request.cookies:
+    try:
+      if request.cookies.get("x-session-name"):
+        return redirect("https://mystuff.ksiscute.repl.co/?error='You/'re already logged in!'")
+    except:
+      
+      resp = make_response(redirect("https://mystuff.ksiscute.repl.co/settings"))
+      if request.method == "POST":
+        uid = 1
+        for x in db.find():
+          uid += 1
+          if str(x['name']).lower() == request.form.get("uname").lower():
+            if bcrypt.checkpw(request.form.get("pword").encode("UTF8"), x['password'].encode("UTF8")):
+              resp.set_cookie('x-session-token', f'{bcrypt.hashpw(request.form.get("uname").encode("UTF8"), bcrypt.gensalt()).decode("UTF8")}')
+              resp.set_cookie('x-session-name', request.form.get("uname"))
+              return resp
+            return render_template("/accounts/signin.html", error="Password and/or username is incorrect!")
+        return render_template("/accounts/signin.html", error="That username doesn't exist!")
           
-  return render_template("/accounts/signin.html")
+      return render_template("/accounts/signin.html")
 
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
-  if request.method == "POST":
-    if len(request.form.get("pword")) > 50:
-      return render_template("/accounts/signin.html", error="Your password must be under 50 characters!")
-    if len(request.form.get("uname")) < 2 or len(request.form.get("uname")) > 30:
-      return render_template("/accounts/signin.html", error="Your username is too long or too short! Please keep it under 30 characters, and at least over 2 characters!", singing="up")
-    for x in data.find():
-      if x['username'].lower() == request.form.get("uname").lower():
-        return render_template("/accounts/signin.html", error="That username is taken! Please try another!", singing="up")
-    uid = 1
-    for x in db.find({}):
-      uid += 1
-    db.insert_one(
-      {
-        "_id":uid, 
-        "name": request.form.get("uname"), 
-        "password": f'{bcrypt.hashpw(request.form.get("pword").encode("UTF8"), bcrypt.gensalt()).decode("UTF8")}', 
-        "email":request.form.get("email"), 
-        "settings": {
-          "dob":{
-            "year": request.form.get("date").split("-")[0],
-            "month": request.form.get("date").split("-")[1],
-            "day": request.form.get("date").split("-")[2],
-            "showing": False
-          },
-          "profile":{
-            "bio": "This user has not set their bio! Encourage them to create one!",
-            "status": "",
-            "expiry": "N",
-            "badges": [],
-            "picture": {
-              "active": False,
-              "meta": None
+    try:
+      if request.cookies.get("x-session-name"):
+        return redirect("https://mystuff.ksiscute.repl.co/?error='You/'re already logged in!'")
+    except:
+      if request.method == "POST":
+        if len(request.form.get("pword")) > 50:
+          return render_template("/accounts/signin.html", error="Your password must be under 50 characters!")
+        if len(request.form.get("uname")) < 2 or len(request.form.get("uname")) > 30:
+          return render_template("/accounts/signin.html", error="Your username is too long or too short! Please keep it under 30 characters, and at least over 2 characters!", singing="up")
+        for x in data.find():
+          if x['username'].lower() == request.form.get("uname").lower():
+            return render_template("/accounts/signin.html", error="That username is taken! Please try another!", singing="up")
+        uid = 1
+        for x in db.find({}):
+          uid += 1
+        db.insert_one(
+          {
+            "_id":uid, 
+            "name": request.form.get("uname"), 
+            "password": f'{bcrypt.hashpw(request.form.get("pword").encode("UTF8"), bcrypt.gensalt()).decode("UTF8")}', 
+            "email":request.form.get("email"), 
+            "settings": {
+              "dob":{
+                "year": request.form.get("date").split("-")[0],
+                "month": request.form.get("date").split("-")[1],
+                "day": request.form.get("date").split("-")[2],
+                "showing": False
+              },
+              "profile":{
+                "bio": "This user has not set their bio! Encourage them to create one!",
+                "status": "",
+                "expiry": "N",
+                "badges": [],
+                "picture": {
+                  "active": False,
+                  "meta": None
+                }
+              }
             }
           }
-        }
-      }
-    )
+        )
     resp = make_response(redirect("https://mystuff.ksiscute.repl.co/settings"))
     resp.set_cookie("x-session-name", request.form.get("uname"))
     resp.set_cookie('x-session-token', f'{bcrypt.hashpw(request.form.get("uname").encode("UTF8"), bcrypt.gensalt()).decode("UTF8")}')
@@ -112,7 +121,6 @@ def settings():
       }
     )
   if request.cookies:
-    print(request.cookies.get("x-session-name"))
     return render_template("/accounts/settings.html", name=request.cookies.get("x-session-name"), dob=db.find_one({"name":request.cookies.get('x-session-name')})['settings']['dob'])
   return "You must sign in to access this page!"
 
