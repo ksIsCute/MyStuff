@@ -97,12 +97,12 @@ def signup():
             }
           }
         )
-    resp = make_response(redirect("https://mystuff.ksiscute.repl.co/settings"))
-    resp.set_cookie("x-session-name", request.form.get("uname"))
-    resp.set_cookie('x-session-token', f'{bcrypt.hashpw(request.form.get("uname").encode("UTF8"), bcrypt.gensalt()).decode("UTF8")}')
-    resp.headers['Content-type'] = "text/html"
-    return resp
-  return render_template("/accounts/signin.html", signing="up")
+        resp = make_response(redirect("https://mystuff.ksiscute.repl.co/settings"))
+        resp.set_cookie("x-session-name", request.form.get("uname"))
+        resp.set_cookie('x-session-token', f'{bcrypt.hashpw(request.form.get("uname").encode("UTF8"), bcrypt.gensalt()).decode("UTF8")}')
+        resp.headers['Content-type'] = "text/html"
+        return resp
+    return render_template("/accounts/signin.html", signing="up")
 
 @app.route("/settings", methods=['POST', 'GET'])
 def settings():
@@ -112,6 +112,9 @@ def settings():
         name = request.cookies.get("x-session-name")
       else:
         name = request.form.get("uname")
+    except:
+      name = request.cookies.get("x-session-name")
+      
     db.update_one(
       {
         "name": request.cookies.get("x-session-name")
