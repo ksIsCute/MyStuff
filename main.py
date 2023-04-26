@@ -20,10 +20,17 @@ limit = Limiter(get_remote_address, app=app, default_limits=["200 per day", "50 
 
 @app.route("/")
 def slash():
-  if request.cookies:
-    return render_template("/wip/index.html", name=request.cookies.get("x-session-name"))
+  if request.args:
+    try:
+      error = request.args.get("error")
+    except:
+      error = None
   else:
-    return render_template("/wip/index.html")
+    error = None
+  if request.cookies:
+    return render_template("/wip/index.html", name=request.cookies.get("x-session-name"), error=error)
+  else:
+    return render_template("/wip/index.html", error=error)
 
 @app.route("/profile/@<username>")
 def profiles(username):
