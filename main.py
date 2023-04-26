@@ -37,10 +37,43 @@ def profiles(username):
     return redirect("https://mystuff.ksiscute.repl.co/?error=User doesn't exist! Check for typos!")
   return render_template("/wip/profile.html", name=user['name'], user=user)
   
-@app.route("/settings", methods=['POST', 'GET'])
+@app.route("/settings", methods=["GET", "POST"])
 def settings():
+  notes = 0
+  for x in db.find():
+    notes += 1
   if request.cookies:
+    if request.method == "POST":
+      if request.form.get("bio"):
+        if len(request.form.get("bio")) < 500:
+          ubio = request.form.get("bio")
+        else:
+          return redirect("https://mystuff.ksiscute.repl.co/settings?error=Your bio must be under the 500 character threshold!")
+      else:
+        ubio = data[request.cookies.get("x-session-name")]['profile']['bio']
+      if request.form.get("status"):
+        if len(request.form.get("status")) < 100:
+          status = request.form.get("status")
+        else:
+          return redirect("https://mystuff.ksiscute.repl.co/settings?error=Please keep your STATUS under the 100 character limit!")
+      else:
+        status = data[request.cookies.get("x-session-name")]['profile']['status']
+      data.update_one(
+        {
+          "name": re.compile(request.cookies.get("x-session-name"), re.IGNORECASE)
+        },
+        {
+          "$set": {
+            "profile": {
+              "bio": ubio,
+              "status": status,
+              "expiry": "N"
+            }
+          }
+        }
+      )
     return render_template("/wip/settings.html", name=request.cookies.get("x-session-name"))
+  return redirect('https://mystuff.ksiscute.repl.co?error=Please login to get access to the SETTINGS menu!')
 
 @app.route("/signin", methods=["GET", "POST"])
 def login():
