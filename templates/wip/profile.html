@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <title>My Stuff</title>
+    <link rel=stylesheet href="/static/style.css"/>
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="/" class="active">Home</a>
+      <a href="/news">News</a>
+      <a href="/browse">Browse Profiles</a>
+      {% if request.cookies %}
+        <div class="dropdown">
+          <button class="dropbtn">Account 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/profile/@{{ name }}">Your Profile</a>
+            <a href="/settings">Your Settings</a>
+            <hr>
+            <a href="/signout">Sign Out</a>
+          </div>
+        </div> 
+      {% else %}
+        <div class="dropdown">
+          <button class="dropbtn">Get Started 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/signup">Sign Up</a>
+            <a href="/signin">Sign In</a>
+          </div>
+      {% endif %}
+      </div> 
+    </div>
+    <div class="profilebox">
+      <div class="profilestatusimg">
+        {% if user['settings']['profile']['picture']['active'] == True %}
+            <img src="data:image/png;base64,{{ user['settings']['profile']['picture']['meta'] }}" style="float:left" class="profileimg">
+        {% endif %}
+          {% if user['settings']['profile']['badges'] %}
+            <div class="profilebadges">
+              {% for badge in user['settings']['profile']['badges'] %}
+                <img src="/static/images/badges/{{ badge }}.svg" title="{{ badge }} badge">
+              {% endfor %}
+            </div>
+          {% endif %}
+      </div>
+        <h1 class="profiletext">{{ user['name'] }}</h1>
+      {% if user['name'].lower() == "admin" %}
+        <h1 class="profiletext neonText">"{{ user['settings']['profile']['status'] }}"</h1>
+      {% else %}
+        <h3 class="profilestatus">"{{ user['settings']['profile']['status'] }}"</h3>
+      {% endif %}
+      <p class=profilebio>{{ user['settings']['profile']['bio'] }}</p>
+      <hr>
+      {% if user['settings']['profile']['links'] %}
+        <h1 class=profiletext>Links</h1>
+        <div style="justify-content:center;align-items:center;display:flex;align-content: center;flex-direction: column;">
+          {% for link in user['settings']['profile']['links'] %}
+              <button class="profilelinkbtn"><a href="{{ user['settings']['profile']['links'][link] }}" class="profilelink">{{ link }}</a></button>
+              <br>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

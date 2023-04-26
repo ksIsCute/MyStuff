@@ -35,18 +35,22 @@
         </div>
       </div>
     </nav>
-    <div>
-      <h2>{{ name }}</h2>
-      <h3>{{ user['settings']['profile']['bio'] }}</h3>
-      {% if user['settings']['dob']['showing'] == True %}
-        <p>Birthday: {{ user['settings']['dob']['day'] }}-{{ user['settings']['dob']['month'] }}-{{ user['settings']['dob']['year'] }}</p>
-      {% endif %}
-      {% if user['settings']['profile']['status'] != "" %}
-        <h3>{{ user['settings']['profile']['status'] }}</h3>
-      {% endif %}
-      {% for badge in badges %}
-        <img src="/static/images/badges/{{ badge.lower() }}.png">
-      {% endfor %}
+    <div class="card">
+      <h5 class="card-header">{{ name }}</h5>
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">{{ user['settings']['profile']['bio'] }}</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+        {% if user['settings']['dob']['showing'] == "true" %}
+          <p>Birthday: {{ user['settings']['dob']['day'] }}-{{ user['settings']['dob']['month'] }}-{{ user['settings']['dob']['year'] }}</p>
+        {% endif %}
+        {% if user['settings']['profile']['status'] != "" %}
+          <h3>{{ user['settings']['profile']['status'] }}</h3>
+        {% endif %}
+        {% for badge in user['settings']['profile']['badges'] %}
+          <img src="/static/images/badges/{{ badge }}.svg">
+        {% endfor %}
+      </div>
     </div>
     <hr>
 

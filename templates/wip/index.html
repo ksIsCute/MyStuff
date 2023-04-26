@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <title>My Stuff</title>
+    <link rel=stylesheet href="/static/style.css"/>
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="/" class="active">Home</a>
+      <a href="/news">News</a>
+      <a href="/browse">Browse Profiles</a>
+      {% if request.cookies %}
+        <div class="dropdown">
+          <button class="dropbtn">Account 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/profile/@{{ name }}">Your Profile</a>
+            <a href="/settings">Your Settings</a>
+            <hr>
+            <a href="/signout">Sign Out</a>
+          </div>
+        </div> 
+      {% else %}
+        <div class="dropdown">
+          <button class="dropbtn">Get Started 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/signup">Sign Up</a>
+            <a href="/signin">Sign In</a>
+          </div>
+      {% endif %}
+      </div> 
+    </div>
+    <div class=header id=container>
+      <div style="display:flex;text-align:center;justify-content:center">
+        <h1 id="text"> </h1>
+        <h1> Stuff</h1>
+      </div>
+      <p>Your place to show off everything</p>
+    </div>
+    <script>
+      var CONTENT = [ 
+      	"My ", 
+      	"Your ", 
+      	"Our ", 
+      	"Everybodys ",
+        "His ",
+        "Her ",
+        "Their ",
+        "Its "
+      ];
+      
+      var PART = 0;
+      var PARTINDEX = 0;
+      var INTERVALVAL;
+      var ELEMENT = document.querySelector("#text");
+      
+      function Type() { 
+      	var text =  CONTENT[PART].substring(0, PARTINDEX + 1);
+      	ELEMENT.innerHTML = text;
+      	PARTINDEX++;
+      
+      	if(text === CONTENT[PART]) {
+      
+      		clearInterval(INTERVALVAL);
+      		setTimeout(function() {
+      			INTERVALVAL = setInterval(Delete, 50);
+      		}, 1000);
+      	}
+      }
+      
+      function Delete() {
+      	var text =  CONTENT[PART].substring(0, PARTINDEX - 1);
+      	ELEMENT.innerHTML = text;
+      	PARTINDEX--;
+      
+      	if(text === '') {
+      		clearInterval(INTERVALVAL);
+      
+      		if(PART == (CONTENT.length - 1))
+      			PART = 0;
+      		else
+      			PART++;
+      		
+      		PARTINDEX = 0;
+      
+      		setTimeout(function() {
+      			INTERVALVAL = setInterval(Type, 100);
+      		}, 200);
+      	}
+      }
+      
+      INTERVALVAL = setInterval(Type, 100);
+    </script>
+  </body>
+</html>

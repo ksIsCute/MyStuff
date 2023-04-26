@@ -1,12 +1,204 @@
-.anim-typewriter{
-  animation: typewriter 4s steps(44) 1s 1 normal both,
-             blinkTextCursor 500ms steps(44) infinite normal;
+@font-face {
+  font-family: ProximaNova;
+  src: url("/static/ProximaNova.otf") format("opentype");
 }
-@keyframes typewriter{
-  from{width: 0;}
-  to{width: 24em;}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: ProximaNova;
 }
-@keyframes blinkTextCursor{
-  from{border-right-color: rgba(255,255,255,.75);}
-  to{border-right-color: transparent;}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+.navbar a .active {
+  background-color: #555;
+}
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #444;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #222;
+  color: white;
+  font-size: 30px;
+}
+
+#text {
+	display: inline-block;
+	vertical-align: middle;
+	color: ghostwhite;
+	letter-spacing: 2px;
+}
+
+#cursor {
+	display: inline-block;
+	vertical-align: middle;
+	width: 3px;
+	height: 50px;
+	background-color: ghostwhite;
+	animation: blink .75s step-end infinite;
+}
+
+@keyframes blink {
+	from, to { 
+		background-color: transparent 
+	}
+	50% { 
+		background-color: ghostwhite; 
+	}
+}
+
+.profilebox {
+  color: ghostwhite;
+  background: #333;
+  max-width: 75%;
+  max-height: 50%;
+  justify-content:center;
+  padding: 5%;
+  border-radius: 20px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.profilebio {
+  text-align:center;
+}
+
+.profiletext {
+  text-align: center;
+}
+
+.neonText {
+  color: #c7c7c7;
+  text-shadow:
+    0 0 1px #b0b0b0,
+    0 0 2px #e6e6e6,
+    0 0 1px #dbdbdb,
+    0 0 6px #4c00ff,
+    0 0 7px #1605ff,
+    0 0 10px #6600ff,
+    0 0 15px #6600ff,
+    0 0 17px #c800ff;
+}
+
+.profilestatusimg {
+  display:flex;
+}
+
+.profilestatus {
+  color: ghostwhite;
+  text-align:center;
+  margin-left: 15%;
+  margin-top: 15%;
+}
+
+.profileimg {
+  border-radius: 50%;
+  width: 30%;
+  border: 5px solid black;
+  
+}
+
+.profilelinkbtn {
+  border-radius:5px;
+  background: rgb(121,9,108);
+  background: linear-gradient(90deg, rgba(121,9,108,1) 50%, rgba(211,0,255,1) 100%);
+  padding: 15px 20px;
+  max-width: 100%;
+  max-height: 50%;
+  width: 100%;
+  text-align:center;
+  justify-content:center;
+  border: none;
+  box-shadow: 6px 6px 2px 1px #9934fe;
+  transition: all .5s;
+}
+
+.profilelink {
+  text-decoration: none;
+  color: ghostwhite;
+}
+
+.profilelinkbtn:hover {
+  box-shadow: 0px 0 0px 0px #6685ff;
+  text-decoration: none;
+  border-bottom:1px solid ghostwhite;
+  background: linear-gradient(39deg, rgba(121,9,108,1) 21%, rgba(211,0,255,1) 100%);
+}
+
+.profilelinkbtn + .profilelinkbtn {
+  margin-bottom: 5;
+}
+
+.profilebadges {
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  justify-content:space-evenly;
+  text-align: right;
+}
+
+.profilebadges img {
+  width: 50px;
+  height: 50px;
 }

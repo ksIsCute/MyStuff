@@ -1,4 +1,4 @@
-import flask, os, pymongo, bcrypt, base64
+import flask, re, os, pymongo, bcrypt, base64
 from flask import Flask, render_template, make_response, request, redirect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -18,28 +18,29 @@ app = Flask(__name__, '/static')
 
 limit = Limiter(get_remote_address, app=app, default_limits=["200 per day", "50 per hour"])
 
-#<img src="data:image/jpeg;base64,' + data_base64 + '">
-@app.route("/test")
-def createadminportalthing():
-  return "unused (for now)"
-
 @app.route("/")
 def slash():
-  if request.args:
-    return render_template("index.html", error=request.args.get("error"))
-  return render_template("index.html")
+  if request.cookies:
+    return render_template("/wip/index.html", name=request.cookies.get("x-session-name"))
+  else:
+    return render_template("/wip/index.html")
 
 @app.route("/profile/@<username>")
-def profile(username):
-  user = db.find_one(
-    {
-      "name": username
-    })
-  return render_template("viewprofile.html", name=user['name'], data=user)
-
-@app.route("/getstarted")
-def getstarted():
-  return render_template("getstarted.html")
+def profiles(username):
+  try:
+    user = db.find_one(
+      {
+        "name": re.compile(username, re.IGNORECASE)
+      })
+    user['name']
+  except Exception as e:
+    return redirect("https://mystuff.ksiscute.repl.co/?error=User doesn't exist! Check for typos!")
+  return render_template("/wip/profile.html", name=user['name'], user=user)
+  
+@app.route("/settings", methods=['POST', 'GET'])
+def settings():
+  if request.cookies:
+    return render_template("/wip/settings.html", name=request.cookies.get("x-session-name"))
 
 @app.route("/signin", methods=["GET", "POST"])
 def login():
@@ -98,10 +99,12 @@ def signup():
                 "bio": "This user has not set their bio! Encourage them to create one!",
                 "status": "",
                 "expiry": "N",
-                "badges": [],
+                "badges": [
+                  "beta"
+                ],
                 "picture": {
-                  "active": False,
-                  "meta": None
+                  "active": True,
+                  "meta": os.environ['defaultpfp']
                 }
               }
             }
@@ -112,30 +115,7 @@ def signup():
         resp.set_cookie('x-session-token', f'{bcrypt.hashpw(request.form.get("uname").encode("UTF8"), bcrypt.gensalt()).decode("UTF8")}')
         resp.headers['Content-type'] = "text/html"
         return resp
-    return render_template("/accounts/signin.html", signing="up")
-
-@app.route("/settings", methods=['POST', 'GET'])
-def settings():
-  if request.method == "POST":
-    try:
-      if request.form.get("uname") < 2:
-        name = request.cookies.get("x-session-name")
-      else:
-        name = request.form.get("uname")
-    except:
-      name = request.cookies.get("x-session-name")
-      
-    db.update_one(
-      {
-        "name": request.cookies.get("x-session-name")
-      },
-      {
-        "name": name
-      }
-    )
-  if request.cookies:
-    return render_template("/accounts/settings.html", name=request.cookies.get("x-session-name"), dob=db.find_one({"name":request.cookies.get('x-session-name')})['settings']['dob'])
-  return "You must sign in to access this page!"
+      return render_template("/accounts/signin.html", signing="up")
 
 @app.errorhandler(404)
 @limit.exempt

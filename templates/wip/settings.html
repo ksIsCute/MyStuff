@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>My Stuff</title>
+    <link rel=stylesheet href="/static/style.css"/>
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="/" class="active">Home</a>
+      <a href="/news">News</a>
+      <a href="/browse">Browse Profiles</a>
+      {% if request.cookies %}
+        <div class="dropdown">
+          <button class="dropbtn">Account 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/profile/@{{ name }}">Your Profile</a>
+            <a href="/settings">Your Settings</a>
+            <hr>
+            <a href="/signout">Sign Out</a>
+          </div>
+        </div> 
+      {% else %}
+        <div class="dropdown">
+          <button class="dropbtn">Get Started 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/signup">Sign Up</a>
+            <a href="/signin">Sign In</a>
+          </div>
+      {% endif %}
+      </div> 
+    </div>
+    <div class=header id=container>
+      <div style="display:flex;text-align:center;justify-content:center">
+        <h1>Your Settings</h1>
+      </div>
+    </div>
+  </body>
+</html>

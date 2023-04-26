@@ -39,7 +39,9 @@
       <div class="col-md-5 p-lg-5 mx-auto my-5">
         <h1 class="display-4 font-weight-normal line-1 anim-typewriter">My Stuff</h1>
         {% if request.args.get("error") %}
-          <p class="lead font-weight-normal line-1">{{ error }}</p>
+        <div class="alert alert-primary" role="alert">
+          {{ error }}
+        </div>
           <a class="btn btn-outline-secondary" href="/profile/@{{ request.cookies.get('x-session-name') }}">View Profile</a>
         {% else %}
           <p class="lead font-weight-normal">Like our competitors, but free, and easier to use.. maybe..</p>
