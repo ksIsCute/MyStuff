@@ -3,15 +3,32 @@
   src: url("/static/ProximaNova.otf") format("opentype");
 }
 
+:root {
+  --bg-color: #393E46;
+  --navbar-color: #222831;
+  --navbar-text:#ffffff;
+  --dropdown-bg: #2D2727;
+  --dropdown-hover-bg:#413543;
+  --dropdown-hover:#4F4557;
+  --header-bg:#3b434e;
+  --profile-bg:#212A3E;
+  --profile-btn-bg:#454545;
+  --profile-hover-btn-bg:#6e6e6e;
+  --profile-border-bg:#5c5c5c;
+  --profile-button-shadow: #222222;
+  --profile-button-shadow-hover: #111;
+}
+
 body, html {
   margin: 0;
   padding: 0;
   font-family: ProximaNova;
+  background: var(--bg-color);
 }
 
 .navbar {
   overflow: hidden;
-  background-color: #333;
+  background-color: var(--navbar-color);
 }
 
 .navbar a {
@@ -39,16 +56,16 @@ body, html {
   margin: 0;
 }
 .navbar a .active {
-  background-color: #555;
+  background-color: var(--dropdown-bg);
 }
 .navbar a:hover, .dropdown:hover .dropbtn {
-  background-color: #444;
+  background-color: var(--dropdown-hover);
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: var(--dropdown-bg);
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -56,7 +73,7 @@ body, html {
 
 .dropdown-content a {
   float: none;
-  color: black;
+  color: ghostwhite;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -64,7 +81,7 @@ body, html {
 }
 
 .dropdown-content a:hover {
-  background-color: #ddd;
+  background-color: var(--dropdown-hover-bg);
 }
 
 .dropdown:hover .dropdown-content {
@@ -74,7 +91,7 @@ body, html {
 .header {
   padding: 60px;
   text-align: center;
-  background: #222;
+  background: var(--header-bg);
   color: white;
   font-size: 30px;
 }
@@ -106,7 +123,7 @@ body, html {
 
 .profilebox {
   color: ghostwhite;
-  background: #333;
+  background: var(--profile-bg);
   max-width: 75%;
   max-height: 50%;
   justify-content:center;
@@ -134,11 +151,11 @@ body, html {
     0 0 1px #b0b0b0,
     0 0 2px #e6e6e6,
     0 0 1px #dbdbdb,
-    0 0 6px #4c00ff,
-    0 0 7px #1605ff,
-    0 0 10px #6600ff,
-    0 0 15px #6600ff,
-    0 0 17px #c800ff;
+    0 0 6px #6d3ae4,
+    0 0 7px #3d30f3,
+    0 0 10px #9148fe,
+    0 0 15px #763ccd,
+    0 0 17px #c347e6;
 }
 
 .profilestatusimg {
@@ -155,14 +172,13 @@ body, html {
 .profileimg {
   border-radius: 50%;
   width: 30%;
-  border: 5px solid black;
+  border: 2px solid var(--profile-border-bg);
   
 }
 
 .profilelinkbtn {
   border-radius:5px;
-  background: rgb(121,9,108);
-  background: linear-gradient(90deg, rgba(121,9,108,1) 50%, rgba(211,0,255,1) 100%);
+  background: var(--profile-btn-bg);
   padding: 15px 20px;
   max-width: 100%;
   max-height: 50%;
@@ -170,7 +186,7 @@ body, html {
   text-align:center;
   justify-content:center;
   border: none;
-  box-shadow: 6px 6px 2px 1px #9934fe;
+  box-shadow: 6px 6px 2px 1px var(--profile-button-shadow);
   transition: all .5s;
 }
 
@@ -180,10 +196,10 @@ body, html {
 }
 
 .profilelinkbtn:hover {
-  box-shadow: 0px 0 0px 0px #6685ff;
+  box-shadow: 0px 0 0px 0px var(--profile-button-shadow-hover);
   text-decoration: none;
   border-bottom:1px solid ghostwhite;
-  background: linear-gradient(39deg, rgba(121,9,108,1) 21%, rgba(211,0,255,1) 100%);
+  background: var(--profile-btn-hover);
 }
 
 .profilelinkbtn + .profilelinkbtn {
@@ -207,4 +223,36 @@ body, html {
 
 .profilebadges img:hover {
   fill: #52a5ff;
+}
+
+.error {
+  padding: 20px;
+  background:rgba(255, 0, 51, 0.5);
+  color: rgba(255, 148, 148, 1);
+  border-radius: 20px;
+}
+
+button {
+  border: 2px solid var(--profile-border-bg);
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
+button a {
+  color: black;
+  text-decoration: none;
+}
+
+.headerbutton {
+  border-color: #e7e7e7;
+  color: black;
+}
+
+.headerbutton:hover {
+  background: #e7e7e7;
 }
