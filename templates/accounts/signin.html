@@ -36,47 +36,25 @@
       </div> 
     </div>
     <div class="text-align:center;justify-content:center;">
-      <form method=POST>
+      {% if request.args.get("error") %}
+        <div class="alert alert-primary" role="alert">
+          {{ error }}
+        </div>
+      {% endif %}
+      <form method=post>
         <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
-        <div class="input-group">
-          <div class="input-group-text">@</div>
-            <input pattern=".{2,20}"   required title="2 characters minimum, 20 characters maximum." type="text" class="form-control" id="autoSizingInputGroup" placeholder="Username" name=uname>
-        </div>
-      </div>
+        <input pattern=".{2,20}"   required title="2 characters minimum, 20 characters maximum." type="text" placeholder="Username" name=uname>
         {% if signing == "up" %}
-          <div class="col-auto">
-            <label class="visually-hidden" for="autoSizingInputGroup">Email</label>
-            <div class="input-group">
-              <input required type="email" class="form-control" id="autoSizingInputGroup" placeholder="Email" name=email>
-            </div>
-          </div>
-          <div class="col-auto">
-            <label class="visually-hidden" for="autoSizingInputGroup">Date Of Birth</label>
-            <div class="input-group">
-              <input required type="date" class="form-control" id="autoSizingInputGroup" name=date>
-            </div>
-          </div>
+          <input required type="email" placeholder="Email" name=email>
+          <label class="visually-hidden" for="autoSizingInputGroup">Date Of Birth</label>
+          <input required type="date" name=date>
         {% endif %}
-        <div class="col-auto">
           <label class="visually-hidden" for="autoSizingInputGroup">Password</label>
-          <div class="input-group">
-            <input required type="password" class="form-control" id="autoSizingInputGroup" placeholder="Password" name=pword>
-          </div>
-        </div>
-        <div class="col-auto mt-3">
-          <button type="submit" class="btn btn-primary">Sign {{ signing }}</button>
-        </div>
+          <input required type="password" placeholder="Password" name=pword>
+          <button type="submit">Sign {{ signing }}</button>
       </form>
     </div>
-    <hr>
-
-    <footer class="container py-5">
-      <div class="row">
-        <div class="col-12 col-md">
-          <small class="d-block mb-3 text-muted">© created by ks</small>
-        </div>
-      </div>
-    </footer>
+    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

@@ -1,0 +1,13 @@
+LICENSE
+MANIFEST.in
+README.md
+cblack.py
+setup.cfg
+setup.py
+cblack.egg-info/PKG-INFO
+cblack.egg-info/SOURCES.txt
+cblack.egg-info/dependency_links.txt
+cblack.egg-info/entry_points.txt
+cblack.egg-info/not-zip-safe
+cblack.egg-info/requires.txt
+cblack.egg-info/top_level.txt
