@@ -40,8 +40,16 @@
     <div>
       <form method="POST">
         <input type="text">
-        {% for link in user['settings']['profile']['links'] %}
-        <input type="checkbox" name="check-{{ number }}" value="{{ link }}"> Delete Link for "{{ link }}"
+        {% if user['settings']['profile']['links'] %}
+          <div class="profilebox">
+            {% for link in user['settings']['profile']['links'] %}
+              <div style="display:flex;justify-content: center;align-content: center;align-items: center;">
+                <input type="checkbox" name="check-{{ link }}" value="{{ link }}">
+                <p class="profiletext">Delete Link - "{{ link }}"</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
       </form>
     </div>
   </body>

@@ -77,7 +77,7 @@ def settings():
         {"$set": {"profile": {"bio": ubio, "status": status, "expiry": "N"}}},
       )
     return render_template(
-      "/wip/settings.html", name=request.cookies.get("x-session-name")
+      "/wip/settings.html", name=request.cookies.get("x-session-name"), user = db.find_one({"name": re.compile(request.cookies.get("x-session-name"), re.IGNORECASE)})
     )
   return redirect(
     "https://mystuff.ksiscute.repl.co?error=Please login to get access to the SETTINGS menu!"
