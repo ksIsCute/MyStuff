@@ -42,7 +42,10 @@
           {{ error }}
         </div>
       {% endif %}
-      <form method=post>
+
+
+      
+      <form method=post style="display:flex;flex-direction: column;align-content: center;flex-wrap: wrap;">
         <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
         <input pattern=".{2,20}"   required title="2 characters minimum, 20 characters maximum." type="text" placeholder="Username" name=uname>
         {% if signing == "up" %}
@@ -55,6 +58,8 @@
           <button type="submit">Sign {{ signing }}</button>
       </form>
     </div>
+
+
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>

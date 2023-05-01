@@ -1,3 +1,25 @@
+
+@font-face {
+  font-family: SFProText;
+  font-style:normal;
+  font-weight: normal;
+  src: url('/static/fonts/SFProText-Regular.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: SFProText;
+  font-style:normal;
+  font-weight: 100, 200, 300, 400;
+  src: url('/static/fonts/SFProText-Light.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: SFProText;
+  font-style:normal;
+  font-weight: 600, 700, 800, 900, bold;
+  src: url('/static/fonts/SFProText-SemiBold.ttf')  format('truetype');
+}
+
 @font-face {
   font-family: ProximaNova;
   src: url("/static/fonts/ProximaNova.otf") format("opentype");
@@ -72,16 +94,18 @@
 body, html {
   margin: 0;
   padding: 0;
-  font-family: ProximaNova;
+  font-family: SFProText;
   background: var(--bg-color)
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: SFProDisplay
+  font-family: SFProDisplay;
+  color: ghostwhite;
 }
 
 p, a {
-  font-family: ProximaNova
+  font-family: SFProText;
+  color:ghostwhite;
 }
 
 .navbar {
@@ -148,7 +172,6 @@ p, a {
 
 .boxholder {
   display: flex;
-  /* important */
   align-items: stretch;
   justify-content: space-around;
   margin-top:5%;
@@ -163,6 +186,7 @@ p, a {
   flex-wrap: wrap;
   color: ghostwhite;
   min-height: 100%;
+  border-radius: 20px;
 }
 
 .container > div {
@@ -227,6 +251,7 @@ p, a {
 
 .profilebio {
   text-align:center;
+  white-space: pre-line;
 }
 
 .profiletext {
@@ -253,7 +278,6 @@ p, a {
 .profilestatus {
   color: ghostwhite;
   text-align:center;
-  margin-top: 15%;
 }
 
 .profileimg {
@@ -315,10 +339,12 @@ p, a {
 }
 
 .box {
-  background: var(--profile-bg);
   padding: 20px;
   max-width: 20%;
   max-height: 75%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .error {
@@ -396,4 +422,131 @@ button a {
 
 .badgetype:hover {
   
+}
+
+form {
+  display: flex;
+}
+
+input[type=text] {
+  padding: 10px;
+  margin:10px 0;
+  border: 2px solid #eee;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  border-radius: 20px;
+}
+
+input[type=password] {
+  padding: 10px;
+  margin:10px 0;
+  border: 2px solid #eee;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  border-radius: 20px;
+}
+
+input[type=date] {
+  padding: 10px;
+  margin:10px 0;
+  border: 2px solid #eee;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  border-radius: 20px;
+}
+
+input[type=email] {
+  padding: 10px;
+  margin:10px 0;
+  border: 2px solid #eee;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  border-radius: 20px;
+}
+
+input[type=submit] {
+  margin:10px 0;
+  padding:10px;
+  border: 2px solid #eee;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  border-radius: 20px;
+}
+
+label {
+  position: relative;
+  cursor: pointer;
+  color: ghostwhite;
+  padding-right: 3px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+label input[type=checkbox] {
+  position: absolute;
+  opactiy: 0;
+  width:0; 
+  height:0;
+  color: ghostwhite;
+}
+
+label span {
+  position: absolute;
+  top:0;
+  left:0;
+  width:20px; 
+  height:20px;
+  background-color: #ddd;
+  transition: .3s background-color;
+}
+
+label span:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 4px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+label:hover span {
+  background-color: #ccc;
+}
+
+label input:checked ~ span {
+  background-color: #2eaadc;
+}
+label input:checked ~ span:after {
+  display:block;
+}
+
+::-webkit-file-upload-button {
+  padding: 1em;
+  color: white;
+  background: var(--browse-bg);
+  border: none;
+}
+
+.settingsform {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.otherbox {
+  background: var(--header-bg);
+  padding: 20px;
+  width: 100%;
+  height: 5%;
+}
+
+.settingstext {
+  padding: 20px;
+  border:none;
+  color: ghostwhite;
+  background: var(--browse-bg);
+  max-width: 100%;
+  max-height:100%;
+  height: 300px;
 }

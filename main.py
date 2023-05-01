@@ -21,6 +21,10 @@ limit = Limiter(get_remote_address,
                 default_limits=["200 per day", "50 per hour"])
 
 
+@app.route("/status")
+def status():
+  return redirect("https://stats.uptimerobot.com/2JgmlCVB0O")
+
 @app.route("/")
 def slash():
   if request.args:
@@ -54,6 +58,18 @@ def profiles(username):
 def settings():
   if request.cookies:
     if request.method == "POST":
+      for link in db.find_one({"name":request.cookies.get("x-session-name")})['settings']['profile']['links']:
+        if request.form.get(f"check-{link}"):
+          db.update_one(
+            {
+              "name": request.cookies.get("x-session-name")
+            },
+            {
+              "$unset": {
+                f"settings.profile.links.{link}": 1
+              }
+            }
+          )
       if request.form.get("status"):
         db.update_one({"name": request.cookies.get("x-session-name")}, [{
           "$set": {
@@ -88,7 +104,7 @@ def settings():
             }
           }
         }])
-      elif request.form.get("name") and request.form.get("link"):
+      if request.form.get("name") and request.form.get("link"):
         db.update_one({"name": request.cookies.get("x-session-name")}, [{
           "$set": {
             "settings": {
@@ -115,7 +131,7 @@ def settings():
 
 @app.route("/browse", methods=['GET', 'POST'])
 def browse():
-  return render_template("/wip/browse.html", users=db.find(), name=request.cookies.get("x-session-name"))
+  return render_template("/wip/browse.html", users=db.find({}).sort("_id", -1), name=request.cookies.get("x-session-name"))
 
 
 @app.route("/signin", methods=["GET", "POST"])

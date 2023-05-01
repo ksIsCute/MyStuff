@@ -38,16 +38,16 @@
         <h1>Your Settings</h1>
       </div>
     </div>
-    <div>
-      <h2>Your current profile photo:</h2>
-      <div style="border-radius:30px;background:#8490ED;width:160px;height:160px;justify-content:center">
+    <div class="settingsform">
+      <h2 style="color:ghostwhite">Your current profile photo:</h2>
+      <div style="border-radius:30px;;width:160px;height:160px;justify-content:center">
         <img src="data:image/png;base64,{{ user['settings']['profile']['picture']['meta'] }}" style="border-radius: 50%;" width=150 height=150 id="output">
         <br>
       </div>
-      <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="profilephoto" id="profilephoto" class="filething" onchange="loadFile(event)">
-        <input type=text name=status placeholder=status>
-        <input type="text" name="bio" placeholder=bio>
+      <form method="POST" enctype="multipart/form-data" class="settingsform">
+        <input type="file" name="profilephoto" id="profilephoto" class="filething" onchange="loadFile(event)" size="60" style="color:ghostwhite">
+        <input type=text name=status placeholder="{{ user['settings']['profile']['status'] }} (Your Status)">
+        <textarea class=settingstext name="bio" placeholder="{{ user['settings']['profile']['bio'] }} (Your Bio)"></textarea>
         <fieldset style="color:ghostwhite">
           <legend>Add a new link</legend>
           <label for="name">Name</label>
@@ -58,10 +58,13 @@
         {% if user['settings']['profile']['links'] %}
           <div class="box">
             {% for link in user['settings']['profile']['links'] %}
-              <div style="display:flex;justify-content: center;align-content: center;align-items: center;">
-                <input type="checkbox" name="check-{{ link }}" value="{{ link }}">
-                <p class="profiletext">Delete Link - "{{ link }}"</p>
+              <div class="otherbox">
+                <label style="margin-top:10px;padding-left:30px;font-size:15px;">Delete Link - "{{ link }}"
+                  <input type="checkbox" name="check-{{ link }}" value="{{ link }}"/>
+                  <span></span>
+                </label>
               </div>
+              <hr width="100%">
             {% endfor %}
           </div>
         {% endif %}
