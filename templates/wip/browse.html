@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <title>My Stuff</title>
+    <link rel=stylesheet href="/static/style.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="/" class="active">Home</a>
+      <a href="/news">News</a>
+      <a href="/browse">Browse Profiles</a>
+      {% if request.cookies %}
+        <div class="dropdown">
+          <button class="dropbtn">Account 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/profile/@{{ name }}">Your Profile</a>
+            <a href="/settings">Your Settings</a>
+            <hr>
+            <a href="/signout">Sign Out</a>
+          </div>
+        </div> 
+      {% else %}
+        <div class="dropdown">
+          <button class="dropbtn">Get Started 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/signup">Sign Up</a>
+            <a href="/signin">Sign In</a>
+          </div>
+      {% endif %}
+      </div> 
+    </div>
+    <div class=header id=container>
+      <h1>Browse</h1>
+    </div>
+    <div class="profiles">
+      {% for user in users %}
+        <div class="profilecontainer">
+          <img src="data:image/png;base64,{{ user['settings']['profile']['picture']['meta'] }}" class="browsepfp">
+          <div>
+            <h3 class="browsename">@{{ user['name'] }}</h3>
+            {% for badge in user['settings']['profile']['badges'] %}
+              <img src="/static/images/badges/{{ badge }}.svg" width=50px height=50px class=badgetype>
+            {% endfor %} 
+          </div>
+          {% if user['settings']['profile']['status'] != "" %}
+            <p class="browsestatus">"{{ user['settings']['profile']['status'] }}"</p>
+          {% endif %}
+          <button onclick=window.open("https://mystuff.ksiscute.repl.co/profile/@{{ user['name'] }}")><a href="https://mystuff.ksiscute.repl.co/profile/@{{ user['name'] }}" target="_blank" rel="noopener noreferrer">View Profile</a></button>
+        </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

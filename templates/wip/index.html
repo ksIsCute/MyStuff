@@ -1,7 +1,12 @@
 <html>
   <head>
     <title>My Stuff</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel=stylesheet href="/static/style.css"/>
+    <script
+    src="https://code.jquery.com/jquery-3.6.4.js"
+    integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="navbar">
@@ -45,19 +50,32 @@
         <button class="headerbutton"><a href="/signin">Get Started</a></button>
       {% endif %}
     </div>
-    <div>
-      
+    <div class="boxholder">
+      <div class="container">
+        <h2 style="font-style: bold">A New Way To Share</h2>
+        <hr>
+        <p>MyStuff is keen on becoming the new way to share your stuff to everybody, everywhere.</p>
+      </div>
+      <div class="container">
+        <h2 style="font-style: bold">Introducing Badges</h2>
+        <hr>
+        <p>If you sign up now, you will be awarded with a "beta" badge on your profile! These are limited quantity, so get one while you can!</p>
+      </div>
+    </div>
+    <div class="boxholder">
+      <div class="container">
+        <h1>Stuff</h1>
+      </div>
+      <div class="container">
+        <h1>Stuff</h1>
+      </div>
     </div>
     <script>
       var CONTENT = [ 
       	"My ", 
       	"Your ", 
       	"Our ", 
-      	"Everybodys ",
-        "His ",
-        "Her ",
-        "Their ",
-        "Its "
+      	"Everybodys "
       ];
       
       var PART = 0;
@@ -101,6 +119,18 @@
       }
       
       INTERVALVAL = setInterval(Type, 100);
+      var velocity = 0.5;
+      
+      function update() {
+        var pos = $(window).scrollTop();
+        $('.container').each(function() {
+          var $element = $(this);
+          var height = $element.height();
+          $(this).css('backgroundPosition', '50% ' + Math.round((height - pos) * velocity) + 'px');
+        });
+      }
+      
+      $(window).bind('scroll', update);
     </script>
   </body>
 </html>

@@ -1,19 +1,69 @@
 @font-face {
   font-family: ProximaNova;
-  src: url("/static/ProximaNova.otf") format("opentype");
+  src: url("/static/fonts/ProximaNova.otf") format("opentype");
+}
+
+@font-face {
+  font-family: SFProDisplay;
+  font-style: normal;
+  font-weight: bold;
+  src: url("/static/fonts/SFProDisplayBold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: SFProDisplay;
+  font-style: normal;
+  font-weight: normal;
+  src: url("/static/fonts/SFProDisplayRegular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: SFProDisplay;
+  font-style: normal;
+  font-weight: 500;
+  src: url("/static/fonts/SFProDisplayMedium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: SFProDisplay;
+  font-style: italic;
+  font-weight: bold;
+  src: url("/static/fonts/SFProDisplayHeavyItalic.otf") format("opentype");
+}
+
+@font-face {
+  font-family: SFProDisplay;
+  font-style: italic;
+  font-weight: 500;
+  src: url("/static/fonts/SFProDisplaySemiBoldItalic.otf") format("opentype");
+}
+
+@font-face {
+  font-family: SFProDisplay;
+  font-style: italic;
+  font-weight: 200;
+  src: url("/static/fonts/SFProDisplayThinItalic.otf") format("opentype");
+}
+
+@font-face {
+  font-family: SFProDisplay;
+  font-style: italic;
+  font-weight: 100;
+  src: url("/static/fonts/SFProDisplayUltraLightItalic.otf") format("opentype");
 }
 
 :root {
-  --bg-color: #393E46;
+  --browse-bg: #343c4c;
+  --bg-color: #222831;
   --navbar-color: #222831;
   --navbar-text:#ffffff;
   --dropdown-bg: #2D2727;
   --dropdown-hover-bg:#413543;
   --dropdown-hover:#4F4557;
-  --header-bg:#3b434e;
+  --header-bg:#2d333c;
   --profile-bg:#212A3E;
   --profile-btn-bg:#454545;
-  --profile-hover-btn-bg:#6e6e6e;
+  --profile-btn-hover:#6e6e6e;
   --profile-border-bg:#5c5c5c;
   --profile-button-shadow: #222222;
   --profile-button-shadow-hover: #111;
@@ -23,7 +73,15 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: ProximaNova;
-  background: var(--bg-color);
+  background: var(--bg-color)
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: SFProDisplay
+}
+
+p, a {
+  font-family: ProximaNova
 }
 
 .navbar {
@@ -88,12 +146,43 @@ body, html {
   display: block;
 }
 
+.boxholder {
+  display: flex;
+  /* important */
+  align-items: stretch;
+  justify-content: space-around;
+  margin-top:5%;
+  padding: 1em;
+}
+
+.container {
+  background: var(--header-bg);
+  width: 100%;
+  margin: 0 .5em;
+  padding: .5em;
+  flex-wrap: wrap;
+  color: ghostwhite;
+  min-height: 100%;
+}
+
+.container > div {
+  flex: 50%;
+}
+
+.container + .container {
+  margin-left: 5px;
+}
+
 .header {
   padding: 60px;
   text-align: center;
   background: var(--header-bg);
   color: white;
   font-size: 30px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 #text {
@@ -125,7 +214,6 @@ body, html {
   color: ghostwhite;
   background: var(--profile-bg);
   max-width: 75%;
-  max-height: 50%;
   justify-content:center;
   padding: 5%;
   border-radius: 20px;
@@ -165,15 +253,15 @@ body, html {
 .profilestatus {
   color: ghostwhite;
   text-align:center;
-  margin-left: 15%;
   margin-top: 15%;
 }
 
 .profileimg {
   border-radius: 50%;
   width: 30%;
+  height: 30%;
   border: 2px solid var(--profile-border-bg);
-  
+  aspect-ratio: 1 / 1;
 }
 
 .profilelinkbtn {
@@ -214,6 +302,7 @@ body, html {
   text-align: right;
   margin-top: 10%;
   margin-left: 10%;
+  flex-wrap: wrap;
 }
 
 .profilebadges img {
@@ -225,11 +314,19 @@ body, html {
   fill: #52a5ff;
 }
 
+.box {
+  background: var(--profile-bg);
+  padding: 20px;
+  max-width: 20%;
+  max-height: 75%;
+}
+
 .error {
   padding: 20px;
   background:rgba(255, 0, 51, 0.5);
   color: rgba(255, 148, 148, 1);
   border-radius: 20px;
+  max-width: 25%;
 }
 
 button {
@@ -255,4 +352,48 @@ button a {
 
 .headerbutton:hover {
   background: #e7e7e7;
+}
+
+.browsepfp {
+  border-radius: 50%;
+  border: 2px solid var(--profile-border-bg);
+  aspect-ratio: 1 / 1;
+  height: 200px;
+  width: 200px;
+}
+
+.browsestatus {
+  font-size: 20px;
+}
+
+.browsename {
+  font-weight: bold;
+  font-size:30px;
+}
+
+.profiles {
+  display: flex;
+  text-align: center;
+  color: ghostwhite;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.profilecontainer {
+  background: var(--browse-bg);
+  padding:60px 50px;
+  justify-content:center;
+  max-width: 50%;
+  max-height: 50%;
+  border-radius: 20px;
+  margin-top: 15px;
+}
+
+.badgetype {
+  
+}
+
+.badgetype:hover {
+  
 }

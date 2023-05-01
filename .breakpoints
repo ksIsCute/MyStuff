@@ -1,3 +1,12 @@
 {
-  "files": {}
+  "files": {
+    "static/style.css": [
+      {
+        "id": "a6ddbb75-a70d-446e-ba46-8e0833462309",
+        "line": 34,
+        "version": 2835,
+        "index": 749
+      }
+    ]
+  }
 }

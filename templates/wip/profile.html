@@ -2,6 +2,7 @@
   <head>
     <title>My Stuff</title>
     <link rel=stylesheet href="/static/style.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <div class="navbar">
@@ -40,7 +41,7 @@
           {% if user['settings']['profile']['badges'] %}
             <div class="profilebadges">
               {% for badge in user['settings']['profile']['badges'] %}
-                <img src="/static/images/badges/{{ badge }}.svg" title="{{ badge }} badge">
+                <img src="/static/images/badges/{{ badge }}.svg" title="{{ badge }} badge" class="badgetype">
               {% endfor %}
             </div>
           {% endif %}
@@ -57,7 +58,7 @@
         <h1 class=profiletext>Links</h1>
         <div style="justify-content:center;align-items:center;display:flex;align-content: center;flex-direction: column;">
           {% for link in user['settings']['profile']['links'] %}
-              <button class="profilelinkbtn"><a href="{{ user['settings']['profile']['links'][link] }}" class="profilelink">{{ link }}</a></button>
+              <button class="profilelinkbtn" onclick="window.open('{{ user['settings']['profile']['links'][link] }}')" target="_blank" rel="noopener noreferrer"><a href="{{ user['settings']['profile']['links'][link] }}" target="_blank" rel="noopener noreferrer" class="profilelink">{{ link }}</a></button>
               <br>
           {% endfor %}
         </div>

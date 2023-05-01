@@ -2,11 +2,7 @@ var CONTENT = [
 	"My", 
 	"Your", 
 	"Our", 
-	"Everybodys",
-  "His",
-  "Her",
-  "Their",
-  "Its"
+	"Everybodys"
 ];
 
 var PART = 0;
