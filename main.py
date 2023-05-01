@@ -1,4 +1,4 @@
-import flask, re, os, pymongo, bcrypt, base64, io
+import flask, re, os, pymongo, bcrypt, base64, io, string, random
 from flask import Flask, render_template, make_response, request, redirect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -41,6 +41,47 @@ def slash():
   else:
     return render_template("/wip/index.html", error=error)
 
+@app.route("/accounts/delete")
+def deleteacc():
+  if request.cookies:
+    letters = string.ascii_letters + string.digits
+    db.update_one(
+      {
+        "name": request.cookies.get("x-session-token")
+      },
+      {
+        "$set": {
+          "name": f"deleted-account-{''.join(random.choice(letters) for i in range(10))}",
+          "deleted": True,
+          "settings": {
+            "dob": {
+              "year": None,
+              "month": None,
+              "day": None
+            },
+            "profile": {
+              "status": "",
+              "expiry": None,
+              "bio": "",
+              "picture": {
+                "active": False,
+                "meta": None
+              },
+              "links": {}
+            }
+          }
+        }
+      }
+    )
+    resp = make_response(
+        redirect(
+          "https://mystuff.ksiscute.repl.co/?error=Deleted your account!"
+        ))
+    resp.set_cookie('x-session-name', '', expires=0)
+    resp.set_cookie('x-session-token', '', expires=0)
+    return resp
+  else:
+    return redirect("https://mystuff.ksiscute.repl.co/signup?error=Please sign in!")
 
 @app.route("/profile/@<username>")
 def profiles(username):

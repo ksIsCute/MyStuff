@@ -38,19 +38,23 @@
     </div>
     <div class="profiles">
       {% for user in users %}
-        <div class="profilecontainer">
-          <img src="data:image/png;base64,{{ user['settings']['profile']['picture']['meta'] }}" class="browsepfp">
-          <div>
-            <h3 class="browsename">@{{ user['name'] }}</h3>
-            {% for badge in user['settings']['profile']['badges'] %}
-              <img src="/static/images/badges/{{ badge }}.svg" width=50px height=50px class=badgetype>
-            {% endfor %} 
+        {% if user['deleted'] %}
+          &nbsp;
+        {% else %}
+          <div class="profilecontainer">
+            <img src="data:image/png;base64,{{ user['settings']['profile']['picture']['meta'] }}" class="browsepfp">
+            <div>
+              <h3 class="browsename">@{{ user['name'] }}</h3>
+              {% for badge in user['settings']['profile']['badges'] %}
+                <img src="/static/images/badges/{{ badge }}.svg" width=50px height=50px class=badgetype>
+              {% endfor %} 
+            </div>
+            {% if user['settings']['profile']['status'] != "" %}
+              <p class="browsestatus">"{{ user['settings']['profile']['status'] }}"</p>
+            {% endif %}
+            <button onclick=window.open("https://mystuff.ksiscute.repl.co/profile/@{{ user['name'] }}")><a href="https://mystuff.ksiscute.repl.co/profile/@{{ user['name'] }}" target="_blank" rel="noopener noreferrer">View Profile</a></button>
           </div>
-          {% if user['settings']['profile']['status'] != "" %}
-            <p class="browsestatus">"{{ user['settings']['profile']['status'] }}"</p>
-          {% endif %}
-          <button onclick=window.open("https://mystuff.ksiscute.repl.co/profile/@{{ user['name'] }}")><a href="https://mystuff.ksiscute.repl.co/profile/@{{ user['name'] }}" target="_blank" rel="noopener noreferrer">View Profile</a></button>
-        </div>
+        {% endif %}
       {% endfor %}
     </div>
   </body>

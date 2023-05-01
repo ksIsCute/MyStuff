@@ -47,8 +47,10 @@
           {% endif %}
       </div>
         <h1 class="profiletext">{{ user['name'] }}</h1>
-      {% if user['name'].lower() == "admin" %}
-        <h1 class="profiletext neonText">"{{ user['settings']['profile']['status'] }}"</h1>
+      {% if user['name'].lower() in ["admin", "ks", "css", "test"] %}
+        {% if user['settings']['profile']['status'] %}
+          <h1 class="profiletext neonText">"{{ user['settings']['profile']['status'] }}"</h1>
+        {% endif %}
       {% elif user['settings']['profile']['status'] %}
         <h3 class="profilestatus">"{{ user['settings']['profile']['status'] }}"</h3>
       {% endif %}
