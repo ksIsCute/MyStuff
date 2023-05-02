@@ -1,4 +1,4 @@
-import flask, re, os, pymongo, bcrypt, base64, io, string, random
+import flask, re, os, pymongo, bcrypt, base64, string, random
 from flask import Flask, render_template, make_response, request, redirect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -47,11 +47,13 @@ def deleteacc():
     letters = string.ascii_letters + string.digits
     db.update_one(
       {
-        "name": request.cookies.get("x-session-token")
+        "name": request.cookies.get("x-session-name")
       },
       {
         "$set": {
-          "name": f"deleted-account-{''.join(random.choice(letters) for i in range(10))}",
+          "name": f"deleted-account-{''.join(random.choice(letters) for i in range(35))}",
+          "email": None,
+          "password": None,
           "deleted": True,
           "settings": {
             "dob": {
@@ -98,6 +100,7 @@ def profiles(username):
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
   if request.cookies:
+    error = ""
     if request.method == "POST":
       for link in db.find_one({"name":request.cookies.get("x-session-name")})['settings']['profile']['links']:
         if request.form.get(f"check-{link}"):
@@ -112,25 +115,31 @@ def settings():
             }
           )
       if request.form.get("status"):
-        db.update_one({"name": request.cookies.get("x-session-name")}, [{
-          "$set": {
-            "settings": {
-              "profile": {
-                "status": request.form.get("status")
-              },
+        if len(request.form.get("status")) < 51:
+          db.update_one({"name": request.cookies.get("x-session-name")}, [{
+            "$set": {
+              "settings": {
+                "profile": {
+                  "status": request.form.get("status")
+                },
+              }
             }
-          }
-        }])
+          }])
+        else:
+          error += " your status was above the 50 character limit,"
       if request.form.get("bio"):
-        db.update_one({"name": request.cookies.get("x-session-name")}, [{
-          "$set": {
-            "settings": {
-              "profile": {
-                "bio": request.form.get("bio")
-              },
+        if len(request.form.get("bio")) < 1001:
+          db.update_one({"name": request.cookies.get("x-session-name")}, [{
+            "$set": {
+              "settings": {
+                "profile": {
+                  "bio": request.form.get("bio")
+                },
+              }
             }
-          }
-        }])
+          }])
+        else:
+          error += " your bio was above the 1000 character limit!"
       if flask.request.files.get('profilephoto', ''):
         imagefile = flask.request.files.get('profilephoto', '')
         db.update_one({"name": request.cookies.get("x-session-name")}, [{
@@ -146,17 +155,20 @@ def settings():
           }
         }])
       if request.form.get("name") and request.form.get("link"):
-        db.update_one({"name": request.cookies.get("x-session-name")}, [{
-          "$set": {
-            "settings": {
-              "profile": {
-                "links": {
-                  request.form.get("name"): request.form.get("link")
+        if len(request.form.get("name")) < 20:
+          db.update_one({"name": request.cookies.get("x-session-name")}, [{
+            "$set": {
+              "settings": {
+                "profile": {
+                  "links": {
+                    request.form.get("name"): request.form.get("link")
+                  }
                 }
               }
             }
-          }
-        }])
+          }])
+        else:
+          error += " your link name was above the 20 character limit!"
 
     return render_template("/wip/settings.html",
                            name=request.cookies.get("x-session-name"),
