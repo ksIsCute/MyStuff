@@ -1,6 +1,7 @@
 <html>
   <head>
-    <title>My Stuff</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>My Stuff | Settings</title>
     <link rel=stylesheet href="/static/style.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
@@ -71,6 +72,7 @@
         <input type=submit value="Save Changes">
       </form>
       <button onclick="deleteacc()" class="btn danger" id=deletebtn value="Delete Account">Delete Account</button>
+      <input type=password name="deletepword" id=deletepword>
     </div>
     <script>
       var loadFile = function(event) {
@@ -83,10 +85,14 @@
         var btn = document.getElementById("deletebtn");
         if (btn.value.toLowerCase() == "delete account") {
           btn.value = "Are you sure?"
-          document.querySelector('#deletebtn').innerText = 'Are You Sure?';
+          document.querySelector('#deletebtn').innerText = 'Are You Sure? Please enter your password in the box below!';
         } 
         else if (btn.value.toLowerCase() == "are you sure?") {
-          window.location.href = 'https://mystuff.ksiscute.repl.co/accounts/delete'
+          if (document.getElementById('deletepword').value != "") {
+            window.location.href = `https://mystuff.ksiscute.repl.co/accounts/almostdelete?utoken={{ token }}&uname={{ name }}&pword=${document.getElementById("deletepword").value}`
+          } else {
+            btn.innerText = "Password incorrect!"
+          }
         } else {
           console.log("Something went wrong!")
           console.log(btn.value.toLowerCase())

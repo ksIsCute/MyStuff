@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Emoji:wght@500&display=swap');
 
 @font-face {
   font-family: SFProText;
@@ -91,20 +92,28 @@
   --profile-button-shadow-hover: #111;
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
 body, html {
   margin: 0;
   padding: 0;
-  font-family: SFProText;
+  font-family: SFProText, 'Noto Color Emoji';
   background: var(--bg-color)
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: SFProDisplay;
+  font-family: SFProDisplay, 'Noto Color Emoji';
   color: ghostwhite;
 }
 
 p, a {
-  font-family: SFProText;
+  font-family: SFProText, 'Noto Color Emoji';
   color:ghostwhite;
 }
 
@@ -351,6 +360,14 @@ p, a {
   padding: 20px;
   background:rgba(255, 0, 51, 0.5);
   color: rgba(255, 148, 148, 1);
+  border-radius: 20px;
+  max-width: 25%;
+}
+
+.success {
+  padding: 20px;
+  background:rgba(51, 255, 0, 0.5);
+  color: rgba(1, 50, 32, 1);
   border-radius: 20px;
   max-width: 25%;
 }

@@ -1,6 +1,8 @@
 <html>
   <head>
-    <title>My Stuff</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>My Stuff | Browse</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel=stylesheet href="/static/style.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
@@ -52,7 +54,7 @@
             {% if user['settings']['profile']['status'] != "" %}
               <p class="browsestatus">"{{ user['settings']['profile']['status'] }}"</p>
             {% endif %}
-            <button onclick=window.open("https://mystuff.ksiscute.repl.co/profile/@{{ user['name'] }}")><a href="https://mystuff.ksiscute.repl.co/profile/@{{ user['name'] }}" target="_blank" rel="noopener noreferrer">View Profile</a></button>
+            <button onclick=window.open("https://mystuff.ksiscute.repl.co/profile/@{{ user['name'] }}")><a>View Profile</a></button>
           </div>
         {% endif %}
       {% endfor %}
