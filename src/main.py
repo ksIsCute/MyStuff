@@ -250,81 +250,52 @@ def browse():
 @app.route("/signin", methods=["GET", "POST"])
 def signin():
   if request.cookies:
-    if checkuser(request.cookies.get("x-session-name"), request.cookies.get("x-session-token")):
-      if request.cookies.get("x-session-name"):
-        return redirect(
+    return redirect(
           "https://mystuff.ksiscute.repl.co/?error=You're already logged in!")
-      else:
-        resp = make_response(
-              redirect(
-                "https://mystuff.ksiscute.repl.co/?error=You've been signed out for your security!"
-              ))
-        resp.set_cookie('x-session-name', '', expires=0)
-        resp.set_cookie('x-session-token', '', expires=0)
-        return resp  
-
-  resp = make_response(redirect("https://mystuff.ksiscute.repl.co/settings"))
   if request.method == "POST":
     uid = 1
     for x in db.find():
       uid += 1
       if str(x["name"]).lower() == request.form.get("uname").lower():
-        if bcrypt.checkpw(
-            request.form.get("pword").encode("UTF8"),
-            x["password"].encode("UTF8")):
-          resp.set_cookie(
-            "x-session-token",
-            f'{bcrypt.hashpw(request.form.get("uname").encode("UTF8"), bcrypt.gensalt()).decode("UTF8")}',
-          )
+        if bcrypt.checkpw(request.form.get("pword").encode("UTF8"),x["password"].encode("UTF8")):
+          resp = make_response(redirect("https://mystuff.ksiscute.repl.co/settings"))
+          resp.set_cookie("x-session-token",x['token'])
           resp.set_cookie("x-session-name", request.form.get("uname"))
           return resp
         else:
           return render_template(
             "/accounts/signin.html",
-            error="Password and/or username is incorrect!",
+            error="Password and/or username is incorrect!", signing="in",
           )
     return render_template("/accounts/signin.html",
-                           error="That username doesn't exist!")
+                           error="That username doesn't exist!", signing="in")
 
   return render_template("/accounts/signin.html", signing="in")
 
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-  if request.cookies.get("x-session-name"):  
-    if checkuser(request.cookies.get("x-session-name"), request.cookies.get("x-session-token")):
-      return redirect(
-        "https://mystuff.ksiscute.repl.co/?error=You're already logged in! Sign out first!"
-      )
-    else:
-      resp = make_response(
-              redirect(
-                "https://mystuff.ksiscute.repl.co/?error=You've been signed out for your security!"
-              ))
-      resp.set_cookie('x-session-name', '', expires=0)
-      resp.set_cookie('x-session-token', '', expires=0)
-      return resp 
+  if request.cookies:
+    return redirect("https://mystuff.ksiscute.repl.co?error=Sign out first!")
   if request.method == "POST":
     if len(request.form.get("pword")) > 50:
       return render_template(
         "/accounts/signin.html",
         error="Your password must be under 50 characters!",
-      )
+        signing="up")
     if len(request.form.get("uname")) < 2 or len(
         request.form.get("uname")) > 30:
       return render_template(
         "/accounts/signin.html",
         error=
         "Your username is too long or too short! Please keep it under 30 characters, and at least over 2 characters!",
-        singing="up",
-      )
+        singing="up")
     for x in db.find():
       if x["name"].lower() == request.form.get("uname").lower():
         return render_template(
           "/accounts/signin.html",
           error="That username is taken! Please try another!",
-          singing="up",
-        )
+          singing="up")
     uid = 1
     try:
       for x in db.find({}):
@@ -364,7 +335,6 @@ def signup():
     resp = make_response(redirect("https://mystuff.ksiscute.repl.co/settings"))
     resp.set_cookie("x-session-name", request.form.get("uname"))
     resp.set_cookie("x-session-token", token)
-    resp.headers["Content-type"] = "text/html"
     return resp
   return render_template("/accounts/signin.html", signing="up")
 
