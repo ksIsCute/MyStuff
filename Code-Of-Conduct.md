@@ -15,7 +15,7 @@
 <h2> Choose your words carefully. </h2>
 > Always conduct yourself professionally. Be kind to others. Do not insult or put down others. Harassment and exclusionary behavior aren't acceptable. This includes, but is not limited to: - Threats of violence. - Discriminatory jokes and language. - Sharing sexually explicit or violent material via electronic devices or other means. - Personal insults, especially those using racist or sexist terms. - Unwelcome sexual attention. - Advocating for, or encouraging, any of the above behavior.
 
-<h2>Do not harass others. </h2>
+## Do not harass others. 
 > In general, if someone asks you to stop something, then stop. When we disagree, try to understand why. Differences of opinion and disagreements are mostly unavoidable. What is important is that we resolve disagreements and differing views constructively.
 
 <h2> Our differences can be our strengths. </h2>
