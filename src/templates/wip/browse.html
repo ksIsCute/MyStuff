@@ -1,10 +1,17 @@
-<html>
+<!DOCTYPE html>
+<html lang="en-US">
   <head>
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#222831" />
+    <meta name="description" content="Your place to show off all your stuff, to everyone.">
+    <link rel="apple-touch-icon" href="/static/images/mystuff.png">
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <title>My Stuff | Browse</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel=stylesheet href="/static/style.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/c973c49e08.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="navbar">
@@ -36,14 +43,14 @@
       </div> 
     </div>
     <div class=header id=container>
-      <h1>Browse</h1>
+      <h1>Check Out Some Cool People!</h1>
     </div>
     <div class="profiles">
       {% for user in users %}
-        {% if user['deleted'] %}
-          &nbsp;
+        {% if user['deleted'] or user['flagged'] %}
+          &#8203;
         {% else %}
-          <div class="profilecontainer">
+            <div class="profilecontainer">
             <img src="data:image/png;base64,{{ user['settings']['profile']['picture']['meta'] }}" class="browsepfp">
             <div>
               <h3 class="browsename">@{{ user['name'] }}</h3>
@@ -53,6 +60,28 @@
             </div>
             {% if user['settings']['profile']['status'] != "" %}
               <p class="browsestatus">"{{ user['settings']['profile']['status'] }}"</p>
+            {% endif %}
+            {% if user['settings']['profile']['links'] %}
+              <div style="display:flex;justify-content: center;align-items: center;align-content: center;margin-bottom:10px;">
+                {% for link in user['settings']['profile']['links'] %}
+                  {% if link in brandarray %}
+                    {% if link == "nintendo-switch" %}
+                      <div>
+                        <a href="{{ user['settings']['profile']['links'][link] }}"><img src="/static/images/nintendo-switch.svg" class="svg-filter" style="margin-left:10px;"></a>
+                        
+                      </div>
+                    {% elif link == "revolt" %}
+                      <div>
+                        <a href="{{ user['settings']['profile']['links'][link] }}"><img src="https://app.revolt.chat/assets/badges/revolt_r.svg" class="svg-filter" style="margin-left:10px;" width=16px height=16px></a>
+                      </div>
+                    {% else %}
+                      <div>
+                        <a href="{{ user['settings']['profile']['links'][link] }}"><i class="fa-brands fa-{{ link }}" style="color: #bdbdbd;margin-left:10px;"></i></a>
+                      </div>
+                    {% endif %}
+                  {% endif%}
+                {% endfor %}
+              </div>
             {% endif %}
             <button onclick=window.open("https://mystuff.ksiscute.repl.co/profile/@{{ user['name'] }}")><a>View Profile</a></button>
           </div>

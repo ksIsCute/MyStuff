@@ -1,5 +1,13 @@
 {
   "files": {
+    "src/templates/wip/settings.html": [
+      {
+        "id": "3c640348-6231-443f-9192-2ee7105cc4b9",
+        "line": 57,
+        "version": 961,
+        "index": 2464
+      }
+    ],
     "static/style.css": [
       {
         "id": "a6ddbb75-a70d-446e-ba46-8e0833462309",

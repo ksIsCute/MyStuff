@@ -1,11 +1,14 @@
-import flask, re, os, pymongo, bcrypt, base64, string, random
+import flask, re, os, pymongo, bcrypt, base64, string, random, markdown
 from flask import Flask, render_template, make_response, request, redirect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from flask_mail import Mail, Message
 
 client = MongoClient(os.environ["dburl"], server_api=ServerApi("1"))
+
+listofbrands = ["reddit", "facebook", "instagram", "twitter", "tumblr", "snapchat", "revolt", "discord", "telegram", "teamspeak", "skype", "nintendo-switch", "xbox", "playstation", "battle-net", "spotify", "soundcloud", "last-fm", "youtube", "twitch", "github", "stack-overflow"]
 
 db = client["MyStuff"]["MainDB"]
 
@@ -26,12 +29,34 @@ try:
 except Exception as e:
   print(e)
 
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 app = Flask(__name__, "/static")
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = os.environ['email']
+app.config['MAIL_PASSWORD'] = os.environ['emailpass']
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 limit = Limiter(get_remote_address,
                 app=app,
                 default_limits=["200 per day", "50 per hour"])
 
+
+@app.route("/email")
+def email():
+  if request.args:
+    msg = Message('Message From MyStuff Support', sender = os.environ['email'], recipients = [request.args.get("to")])
+    msg.body = "Hello Flask message sent from Flask-Mail"
+    mail.send(msg)
+    return "Sent"
+  else:
+    return "please provide args"
 
 @app.route("/status")
 def status():
@@ -147,7 +172,7 @@ def profiles(username):
     return redirect(
       "https://mystuff.ksiscute.repl.co/?error=User doesn't exist! Check for typos!"
     )
-  return render_template("/wip/profile.html", name=user["name"], user=user)
+  return render_template("/wip/profile.html", name=user["name"], user=user, brandarray=listofbrands)
 
 
 @app.route("/settings", methods=["GET", "POST"])
@@ -156,6 +181,19 @@ def settings():
     if checkuser(request.cookies.get("x-session-name"), request.cookies.get("x-session-token")):
       error = ""
       if request.method == "POST":
+        for brand in listofbrands:
+          if request.form.get(brand):
+            db.update_one({"name": request.cookies.get("x-session-name")}, [{
+                "$set": {
+                  "settings": {
+                    "profile": {
+                      "links": {
+                        brand: request.form.get(brand)
+                      }
+                    }
+                  }
+                }
+              }])
         for link in db.find_one({"name":request.cookies.get("x-session-name")})['settings']['profile']['links']:
           if request.form.get(f"check-{link}"):
             db.update_one(
@@ -183,11 +221,15 @@ def settings():
             error += " your status was above the 50 character limit,"
         if request.form.get("bio"):
           if len(request.form.get("bio")) < 1001:
+            if "# " in request.form.get("bio"):
+              bio = markdown.markdown(request.form.get('bio'))
+            else:
+              bio = request.form.get("bio")
             db.update_one({"name": request.cookies.get("x-session-name")}, [{
               "$set": {
                 "settings": {
                   "profile": {
-                    "bio": request.form.get("bio")
+                    "bio": bio
                   },
                 }
               }
@@ -235,7 +277,9 @@ def settings():
       "/wip/settings.html",
       name=request.cookies.get("x-session-name"),
       token=request.cookies.get("x-session-token"),
-      user=db.find_one({"name":re.compile(request.cookies.get("x-session-name"),re.IGNORECASE)}))
+      user=db.find_one({"name":re.compile(request.cookies.get("x-session-name"),re.IGNORECASE)}),
+      brandarray = listofbrands
+    )
   return redirect(
       "https://mystuff.ksiscute.repl.co?error=Please login to get access to the SETTINGS menu!"
     )
@@ -244,7 +288,7 @@ def settings():
   
 @app.route("/browse", methods=['GET', 'POST'])
 def browse():
-  return render_template("/wip/browse.html", users=db.find({}).sort("_id", -1), name=request.cookies.get("x-session-name"))
+  return render_template("/wip/browse.html", users=db.find({}).sort("_id", -1).limit(11), name=request.cookies.get("x-session-name"), brandarray=listofbrands)
 
 
 @app.route("/signin", methods=["GET", "POST"])

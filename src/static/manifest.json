@@ -1,0 +1,13 @@
+{
+  "name": "MyStuff",
+  "short_name": "MyStuff",
+  "icons": [
+    {
+      "src": "/static/images/user.png",
+      "sizes": "192x192",
+      "display": "standalone",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/"
+}

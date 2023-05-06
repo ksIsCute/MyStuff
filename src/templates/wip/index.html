@@ -1,5 +1,17 @@
-<html>
+<!DOCTYPE html>
+<html lang="en-US">
   <head>
+    <link rel="preload" href="/static/fonts/SFProDisplayBlackItalic.otf" as="font" crossorigin="anonymous" type="opentype" />
+    <link rel="preload" href="/static/fonts/ProximaNova.otf" as="font" type="opentype" crossorigin>
+    <link rel="preload" href="/static/fonts/SFProDisplayMedium.otf" as="font" crossorigin="anonymous" type="opentype" />
+    <link rel="preload" href="/static/fonts/SFProDisplayThinItalic.otf" as="font" crossorigin="anonymous" type="opentype" />
+    <link rel="preload" href="/static/fonts/SFProText-Regular.ttf" as="font" type="truetype" crossorigin
+    <link rel="preload" href="/static/fonts/SFProDisplayBold.otf" as="font" type="opentype" crossorigin>
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#222831" />
+    <meta name="description" content="Your place to show off all your stuff, to everyone.">
+    <link rel="apple-touch-icon" href="/static/images/mystuff.png">
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <title>My Stuff</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +20,7 @@
     src="https://code.jquery.com/jquery-3.6.4.js"
     integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
     crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/c973c49e08.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="navbar">
@@ -44,18 +57,19 @@
     </div>
     <div class=header id=container>
       <div style="display:flex;text-align:center;justify-content:center">
-        <h1 id="text"> </h1>
+        <h1 id="text" style="overflow: hidden;text-overflow: ellipsis;word-wrap: break-word;display: block;line-height: 1em; /* a */max-height: 2em;"> </h1>
         <h1> Stuff</h1>
       </div>
       {% if error %}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-filterred" style="width:60px; height:60px;font-size:60px;margin:auto;"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
         <p class="error">{{ error }}</p>
       {% elif success %}
         <p class=success>{{ success }}</p>
-      <div class="tenor-gif-embed" data-postid="18188570" data-share-method="host" data-aspect-ratio="1.17647" data-width="100%"><a href="https://tenor.com/view/checkmark-transparent-gif-18188570">Checkmark Transparent Sticker</a>from <a href="https://tenor.com/search/checkmark+transparent-stickers">Checkmark Transparent Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        <i class="fa-regular fa-circle-check" style="color: #1aff6a;font-size:60px;"></i>
       {% endif %}
       <p>Your place to show off everything</p>
       {% if not request.cookies %}
-        <button class="headerbutton"><a href="/signin">Get Started</a></button>
+        <button class="headerbutton" onclick="location.href = 'https://mystuff.ksiscute.repl.co/signin'">Get Started</button>
       {% endif %}
     </div>
     <div class="boxholder">
@@ -68,14 +82,6 @@
         <h2 style="font-style: bold">Introducing Badges</h2>
         <hr>
         <p>If you sign up now, you will be awarded with a "beta" badge on your profile! These are limited quantity, so get one while you can!</p>
-      </div>
-    </div>
-    <div class="boxholder">
-      <div class="container">
-        <h1>Stuff</h1>
-      </div>
-      <div class="container">
-        <h1>Stuff</h1>
       </div>
     </div>
     <script>
@@ -140,5 +146,12 @@
       
       $(window).bind('scroll', update);
     </script>
+    <hr>
+    <div style="display:flex;flex-direction: row;justify-content: center;align-items: center;width:20px; height:20px;font-size:20px;margin:auto;">
+      <i class="fa-brands fa-discord" style="color: #bdbdbd;"></i>
+      <i class="fa-brands fa-telegram" style="color: #bdbdbd;"></i>
+      <i class="fa-brands fa-instagram" style="color: #bdbdbd;"></i>
+    </div>
+    <img src="https://discord.c99.nl/widget/theme-4/988616666713821204.png" style="width: 300px;">
   </body>
-</html>
+</html>trying to

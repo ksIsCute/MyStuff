@@ -5,6 +5,7 @@
   font-style:normal;
   font-weight: normal;
   src: url('/static/fonts/SFProText-Regular.ttf')  format('truetype');
+  font-display: swap;
 }
 
 @font-face {
@@ -12,6 +13,7 @@
   font-style:normal;
   font-weight: 100, 200, 300, 400;
   src: url('/static/fonts/SFProText-Light.ttf')  format('truetype');
+  font-display: swap;
 }
 
 @font-face {
@@ -19,11 +21,13 @@
   font-style:normal;
   font-weight: 600, 700, 800, 900, bold;
   src: url('/static/fonts/SFProText-SemiBold.ttf')  format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: ProximaNova;
   src: url("/static/fonts/ProximaNova.otf") format("opentype");
+  font-display: swap;
 }
 
 @font-face {
@@ -31,6 +35,7 @@
   font-style: normal;
   font-weight: bold;
   src: url("/static/fonts/SFProDisplayBold.otf") format("opentype");
+  font-display: swap;
 }
 
 @font-face {
@@ -38,6 +43,7 @@
   font-style: normal;
   font-weight: normal;
   src: url("/static/fonts/SFProDisplayRegular.otf") format("opentype");
+  font-display: swap;
 }
 
 @font-face {
@@ -45,6 +51,7 @@
   font-style: normal;
   font-weight: 500;
   src: url("/static/fonts/SFProDisplayMedium.otf") format("opentype");
+  font-display: swap;
 }
 
 @font-face {
@@ -52,6 +59,7 @@
   font-style: italic;
   font-weight: bold;
   src: url("/static/fonts/SFProDisplayHeavyItalic.otf") format("opentype");
+  font-display: swap;
 }
 
 @font-face {
@@ -59,6 +67,7 @@
   font-style: italic;
   font-weight: 500;
   src: url("/static/fonts/SFProDisplaySemiBoldItalic.otf") format("opentype");
+  font-display: swap;
 }
 
 @font-face {
@@ -66,6 +75,7 @@
   font-style: italic;
   font-weight: 200;
   src: url("/static/fonts/SFProDisplayThinItalic.otf") format("opentype");
+  font-display: swap;
 }
 
 @font-face {
@@ -73,6 +83,7 @@
   font-style: italic;
   font-weight: 100;
   src: url("/static/fonts/SFProDisplayUltraLightItalic.otf") format("opentype");
+  font-display: swap;
 }
 
 :root {
@@ -97,7 +108,8 @@
   'FILL' 0,
   'wght' 400,
   'GRAD' 0,
-  'opsz' 48
+  'opsz' 48;
+  margin-top: -3px;
 }
 
 body, html {
@@ -145,6 +157,7 @@ p, a {
   background-color: inherit;
   font-family: inherit;
   margin: 0;
+  display: inline-flex;
 }
 .navbar a .active {
   background-color: var(--dropdown-bg);
@@ -180,11 +193,14 @@ p, a {
 }
 
 .boxholder {
+  max-width: 100%;
+  width: 50%;
   display: flex;
   align-items: stretch;
   justify-content: space-around;
   margin-top:5%;
   padding: 1em;
+  margin: auto;
 }
 
 .container {
@@ -250,12 +266,13 @@ p, a {
   justify-content:center;
   padding: 5%;
   border-radius: 20px;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  margin: auto;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
 }
 
 .profilebio {
@@ -282,6 +299,11 @@ p, a {
 
 .profilestatusimg {
   display:flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  max-width: 30%;
 }
 
 .profilestatus {
@@ -291,10 +313,10 @@ p, a {
 
 .profileimg {
   border-radius: 50%;
-  width: 30%;
-  height: 30%;
   border: 2px solid var(--profile-border-bg);
   aspect-ratio: 1 / 1;
+  width: 600px;
+  max-width: 60%;
 }
 
 .profilelinkbtn {
@@ -333,7 +355,6 @@ p, a {
   display: flex;
   justify-content:space-evenly;
   text-align: right;
-  margin-top: 10%;
   margin-left: 10%;
   flex-wrap: wrap;
 }
@@ -431,6 +452,7 @@ button a {
   max-height: 50%;
   border-radius: 20px;
   margin-top: 15px;
+  width: 20%;
 }
 
 .badgetype {
@@ -566,4 +588,93 @@ label input:checked ~ span:after {
   max-width: 100%;
   max-height:100%;
   height: 300px;
+}
+
+#mdinput,
+#mdoutput {
+  flex: 1 1 0%;
+  min-height: 100vh;
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5rem;
+  color: ghostwhite;
+}
+
+#mdoutput {
+  background-color: var(--browse-bg);
+}
+
+#mdoutput :not(p) {
+  margin-bottom: 1rem;
+  color: ghostwhite;
+}
+
+#mdoutput hr {
+  margin-top: 1rem;
+  color: ghostwhite;
+}
+
+#mdoutput p {
+  margin-bottom: 0.5rem;
+  color: ghostwhite;
+}
+
+.svg-filter {
+  filter: invert(79%) sepia(0%) saturate(0%) hue-rotate(235deg) brightness(99%) contrast(88%);
+}
+.svg-filterred {
+  filter: invert(10%) sepia(95%) saturate(7049%) hue-rotate(345deg) brightness(100%) contrast(104%);
+}
+
+.profilecontainer + .profilecontainer {
+  margin-left: 5px;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  -webkit-transition: 0.5s;
+  transition: all 0.3s linear;
+}
+
+.modal-content {
+  background-color: #4d4d4d;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn .danger {
+  background: #973030;
+  border: 1px solid #711414;
+}
+
+.is-blurred {
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
 }

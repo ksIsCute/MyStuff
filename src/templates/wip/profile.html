@@ -1,9 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang="en-US">
   <head>
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#222831" />
+    <meta name="description" content="Your place to show off all your stuff, to everyone.">
+    <link rel="apple-touch-icon" href="/static/images/mystuff.png">
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <title>My Stuff | @{{ user['name'] }}'s profile</title>
     <link rel=stylesheet href="/static/style.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script
+    src="https://code.jquery.com/jquery-3.6.4.js"
+    integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/c973c49e08.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="navbar">
@@ -35,19 +46,21 @@
       </div> 
     </div>
     <div class="profilebox">
-      <div class="profilestatusimg">
-        {% if user['settings']['profile']['picture']['active'] == True %}
-            <img src="data:image/png;base64,{{ user['settings']['profile']['picture']['meta'] }}" style="float:left" class="profileimg">
-        {% endif %}
-          {% if user['settings']['profile']['badges'] %}
-            <div class="profilebadges">
-              {% for badge in user['settings']['profile']['badges'] %}
-                <img src="/static/images/badges/{{ badge }}.svg" title="{{ badge }} badge" class="badgetype">
-              {% endfor %}
-            </div>
+      <div style="display:flex;justify-content: center;">
+        <div class="profilestatusimg">
+          {% if user['settings']['profile']['picture']['active'] == True %}
+              <img src="data:image/png;base64,{{ user['settings']['profile']['picture']['meta'] }}" style="float:left" class="profileimg" alt="profile photo" width="55%">
+              <h1 class="profiletext" style="margin-left:10px">@{{ user['name'] }}</h1>
           {% endif %}
+            {% if user['settings']['profile']['badges'] %}
+              <div class="profilebadges">
+                {% for badge in user['settings']['profile']['badges'] %}
+                  <img src="/static/images/badges/{{ badge }}.svg" title="{{ badge }} badge" class="badgetype" alt="badge">
+                {% endfor %}
+              </div>
+            {% endif %}
+        </div>
       </div>
-        <h1 class="profiletext">{{ user['name'] }}</h1>
       {% if user['name'].lower() in ["admin", "ks", "css", "test"] %}
         {% if user['settings']['profile']['status'] %}
           <h1 class="profiletext neonText">"{{ user['settings']['profile']['status'] }}"</h1>
@@ -55,17 +68,44 @@
       {% elif user['settings']['profile']['status'] %}
         <h3 class="profilestatus">"{{ user['settings']['profile']['status'] }}"</h3>
       {% endif %}
-      <p class=profilebio>{{ user['settings']['profile']['bio'] }}</p>
       <hr>
+      <div class=profilebio id="bio">{{ user['settings']['profile']['bio'] | safe }}</div>
       {% if user['settings']['profile']['links'] %}
         <h1 class=profiletext>Links</h1>
-        <div style="justify-content:center;align-items:center;display:flex;align-content: center;flex-direction: column;">
+        <div style="justify-content:center;align-items:center;display:flex;align-content: center;flex-wrap: wrap;font-size:20px;">
           {% for link in user['settings']['profile']['links'] %}
-              <button class="profilelinkbtn" onclick="window.open('{{ user['settings']['profile']['links'][link] }}')" target="_blank" rel="noopener noreferrer"><a href="{{ user['settings']['profile']['links'][link] }}" target="_blank" rel="noopener noreferrer" class="profilelink">{{ link }}</a></button>
-              <br>
+              {% if link in brandarray %}
+                &nbsp;
+              {% else %}
+                <button class="profilelinkbtn" onclick="window.open('{{ user['settings']['profile']['links'][link] }}')" target="_blank" rel="noopener noreferrer"><a href="{{ user['settings']['profile']['links'][link] }}" target="_blank" rel="noopener noreferrer" class="profilelink">{{ link }}</a></button>
+                <br>
+              {% endif %}
+          {% endfor %}
+        </div>
+        <div style="display:flex;">
+          {% for link in user['settings']['profile']['links'] %}
+            {% if link in brandarray %}
+              {% if link == "nintendo-switch" %}
+                <div>
+                  <a href="{{ user['settings']['profile']['links'][link] }}"><img src="/static/images/nintendo-switch.svg" class="svg-filter" style="margin-left:10px;"></a>
+                  
+                </div>
+              {% elif link == "revolt" %}
+                <div>
+                  <a href="{{ user['settings']['profile']['links'][link] }}"><img src="https://app.revolt.chat/assets/badges/revolt_r.svg" class="svg-filter" style="margin-left:10px;" width=16px height=16px></a>
+                </div>
+              {% else %}
+                <div>
+                  <a href="{{ user['settings']['profile']['links'][link] }}"><i class="fa-brands fa-{{ link }}" style="color: #bdbdbd;margin-left:10px;"></i></a>
+                </div>
+              {% endif %}
+            {% endif%}
           {% endfor %}
         </div>
       {% endif %}
     </div>
+    <script>
+      $("#bio").text($("#bio").text().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi))
+    </script>
   </body>
 </html>

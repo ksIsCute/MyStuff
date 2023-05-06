@@ -1,6 +1,11 @@
 <!doctype html>
-<html>
+<html lang="en-US">
   <head>
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#222831" />
+    <meta name="description" content="Your place to show off all your stuff, to everyone.">
+    <link rel="apple-touch-icon" href="/static/images/mystuff.png">
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyStuff Sign {{ signing }}</title>
@@ -50,6 +55,7 @@
         <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
         <input pattern=".{2,20}"   required title="2 characters minimum, 20 characters maximum." type="text" placeholder="Username" name=uname>
         {% if signing == "up" %}
+          <label class="visually-hidden" for="autoSizingInputGroup">Email</label>
           <input required type="email" placeholder="Email" name=email>
           <label class="visually-hidden" for="autoSizingInputGroup">Date Of Birth</label>
           <input required type="date" name=date>
