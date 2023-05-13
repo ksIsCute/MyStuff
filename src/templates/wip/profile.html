@@ -72,10 +72,10 @@
       <div class=profilebio id="bio">{{ user['settings']['profile']['bio'] | safe }}</div>
       {% if user['settings']['profile']['links'] %}
         <h1 class=profiletext>Links</h1>
-        <div style="justify-content:center;align-items:center;display:flex;align-content: center;flex-wrap: wrap;font-size:20px;">
+        <div style="justify-content:center;align-items:center;display:flex;align-content: center;flex-wrap: wrap;font-size:20px;margin-bottom: 3%;">
           {% for link in user['settings']['profile']['links'] %}
               {% if link in brandarray %}
-                &nbsp;
+                &#8203;
               {% else %}
                 <button class="profilelinkbtn" onclick="window.open('{{ user['settings']['profile']['links'][link] }}')" target="_blank" rel="noopener noreferrer"><a href="{{ user['settings']['profile']['links'][link] }}" target="_blank" rel="noopener noreferrer" class="profilelink">{{ link }}</a></button>
                 <br>

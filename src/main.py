@@ -1,13 +1,21 @@
-import flask, re, os, pymongo, bcrypt, base64, string, random, markdown
+import flask, re, os, pymongo, bcrypt, base64, string, random, markdown, zenora, requests
 from flask import Flask, render_template, make_response, request, redirect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from flask_mail import Mail, Message
+from zenora import APIClient
+from urllib import parse
+
+os.system('python /src/bot.py')
 
 client = MongoClient(os.environ["dburl"], server_api=ServerApi("1"))
 
+discord_client = APIClient(
+    os.environ['bot_token'],
+    client_secret=os.environ['bot_client_secret'],
+  )
 listofbrands = ["reddit", "facebook", "instagram", "twitter", "tumblr", "snapchat", "revolt", "discord", "telegram", "teamspeak", "skype", "nintendo-switch", "xbox", "playstation", "battle-net", "spotify", "soundcloud", "last-fm", "youtube", "twitch", "github", "stack-overflow"]
 
 db = client["MyStuff"]["MainDB"]
@@ -195,7 +203,7 @@ def settings():
                 }
               }])
         for link in db.find_one({"name":request.cookies.get("x-session-name")})['settings']['profile']['links']:
-          if request.form.get(f"check-{link}"):
+          if request.form.get(f"check-{link}").replace("mystuff.ksiscute.repl.co/", "" ):
             db.update_one(
               {
                 "name": request.cookies.get("x-session-name")
@@ -380,7 +388,7 @@ def signup():
     resp.set_cookie("x-session-name", request.form.get("uname"))
     resp.set_cookie("x-session-token", token)
     return resp
-  return render_template("/accounts/signin.html", signing="up")
+  return render_template("/accounts/signin.html", signing="up", oauth=os.environ['discord_oauth'])
 
 
 @app.route("/signout")
@@ -404,7 +412,6 @@ def signout():
       return resp 
   return redirect(
     "https://mystuff.ksiscute.repl.co?error=You have to sign in to sign out!")
-
 
 @app.errorhandler(404)
 @limit.exempt
